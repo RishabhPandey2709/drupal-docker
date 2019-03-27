@@ -12,7 +12,57 @@ RUN apt-get install php -y
 
 RUN apt-get install libapache2-mod-php  -y
 RUN rm /var/www/html/index.html
+
+#RUN apt-get install git php7.0 php7.0-curl php7.0-dom php7.0-gd php7.0-mbstring php7.0-sqlite3 -y
+#RUN apt-get install php5.6-gd -y
+RUN apt-get update -y && \
+    apt-get install -y \
+    mysql-client \
+    php7.2-dev \
+    php7.2  \
+    php7.2-cli \
+    php7.2-fpm \
+    php7.2-common \
+    php7.2-curl \
+    php7.2-gd \
+    php7.2-memcached \
+    php7.2-xdebug \
+    php-pear \
+    php7.2-json \
+    php7.2-mbstring \
+    php7.2-intl \
+    php7.2-mysql \
+    php7.2-xml \
+    php7.2-zip \
+    php7.2-apcu \
+    php7.2-ctype \
+    php7.2-dom \
+    php7.2-iconv \
+    php7.2-imagick \
+    php7.2-json \
+    php7.2-intl \
+    php7.2-opcache \
+    php7.2-pdo \
+    php7.2-mysqli \
+    php7.2-xml  \
+    php7.2-tokenizer \
+    php7.2-zip \
+    php7.2-simplexml \
+    php7.2-bcmath \
+    apache2 \
+    #libapache2-mod-fastcgi \
+    libapache2-mod-php7.2 \
+    rsyslog --force-yes
+
 COPY drupal/drupal-8.3.5  /var/www/html/
+
+#RUN chmod -R 777 sites/default/files/
+#RUN chmod a+w drupal/drupal-8.3.5/sites/default/settings.php
+#RUN chmod go-w drupal/drupal-8.3.5/sites/default/settings.php
+#RUN chmod go-w drupal/drupal-8.3.5/sites/default
+#RUN chmod 777 /start.sh
+RUN chown -R www-data:www-data /var/www/html/sites/default
+
 
 EXPOSE 80
 CMD ["-D", "FOREGROUND"]
