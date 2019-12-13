@@ -20,7 +20,7 @@ jobs:
       uses: actions/docker/cli@master
 
       
-      run: build -t imrishbah27/github-action-example .
+      args: build -t imrishbah27/github-action-example .
 
     - name: docker login
 
@@ -36,7 +36,7 @@ jobs:
 
       uses: actions/docker/cli@master
 
-      with:
+      
 
       args: push imrishbah27/github-action-example
 
