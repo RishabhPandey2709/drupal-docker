@@ -15,3 +15,29 @@ jobs:
       run: |
         echo Add other actions to build,
         echo test, and deploy your project.
+    - name: docker build
+
+      uses: actions/docker/cli@master
+
+      with:
+
+      args: build -t imrishbah27/github-action-example .
+
+    - name: docker login
+
+      uses: actions/docker/login@master
+
+      env:
+
+      DOCKER_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+      DOCKER_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+
+    - name: docker push
+
+      uses: actions/docker/cli@master
+
+      with:
+
+      args: push imrishbah27/github-action-example
+
