@@ -1,42 +1,26 @@
-name: CI
+name: Docker Image CI
 
-on: [push]
+on:
+    release:
+        types: [published]
 
 jobs:
-  build:
+    build:
+        runs-on: ubuntu-latest
 
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v1
-    - name: Run a one-line script
-      run: echo Hello, world!
-    - name: Run a multi-line script
-      run: |
-        echo Add other actions to build,
-        echo test, and deploy your project.
-    - name: docker build
-
-      uses: actions/docker/cli@master
-
-      
-      args: build -t imrishbah27/github-action-example .
-
-    - name: docker login
-
-      uses: actions/docker/login@master
-
-      env:
-
-      DOCKER_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
-
-      DOCKER_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
-
-    - name: docker push
-
-      uses: actions/docker/cli@master
-
-      
-
-      args: push imrishbah27/github-action-example
-
+        steps:
+            - uses: actions/checkout@v1
+            - name: Login to DockerHub Registry
+            
+              run: echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+            - name: Get the version
+              id: vars
+              run: echo ::set-output name=tag::$(echo ${GITHUB_REF:10})
+            - name: Build the tagged Docker image
+              run: docker build . --file Dockerfile --tag imrishabh27/example-action:$
+            - name: Push the tagged Docker image
+              run: docker push pjlamb12/angular-cli:$
+            - name: Build the latest Docker image
+              run: docker build . --file Dockerfile --tag imrishabh27/example-action:latest
+            - name: Push the latest Docker image
+              run: docker push imrishabh27/example-action:latest
