@@ -19,9 +19,8 @@ jobs:
 
       uses: actions/docker/cli@master
 
-      with:
-
-      args: build -t imrishbah27/github-action-example .
+      
+      run: build -t imrishbah27/github-action-example .
 
     - name: docker login
 
